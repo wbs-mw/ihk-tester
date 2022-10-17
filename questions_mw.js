@@ -1,6 +1,5 @@
-// questionList.push(mwPowerSupply1);
-// questionList.push(mwPowerSupply2);
-questionList.push(mwDataTransfer1);
+questionList.push(mwPowerSupply1);
+questionList.push(mwPowerSupply2);
 
 function mwPowerSupply1() {
 	let hoursPerDay = Math.randomInt(1, 24);
@@ -186,70 +185,6 @@ function mwPowerSupply2() {
 	let answers = [
 		((pcPower / actualEffA * 100 / 1000) * (hoursPerDay * daysPerYear) * (energyPrice / 100)).toFixed(2),
 		((pcPower / actualEffB * 100 / 1000) * (hoursPerDay * daysPerYear) * (energyPrice / 100)).toFixed(2),
-	];
-
-	return new Question(author, body, answers);
-}
-function mwDataTransfer1() {
-	let adr0 = Math.randomInt(0, 255);
-	let adr1 = Math.randomInt(adr0, 255);
-
-	adr0 = 0;
-	adr1 = 7;
-
-	let author = "wbs-mw";
-	let body = `
-		<p>Für das Internet der WBS soll der IP-Adressbereich <b>172.16.${adr0}.0</b> bis <b>172.16.${adr1}.255</b> in Subnetze eingeteilt werden.</p>
-		<p>Teilen Sie den Adressbereich in genau vier gleichgroße Subnetze unter maximaler Ausnutzung des Adressraums ein, und</br>geben Sie zusätzlich die entsprechende Subnetzmaske an. Füllen Sie dazu die leeren Felder der Tabelle aus.</p>
-		<table>
-			<thead>
-				<tr>
-					<th>Subnetz</th>
-					<th>erste nutzbare Hostadresse</th>
-					<th>letzte nutzbare Hostadresse</th>
-					<th>maximale Anzahl Hosts pro Subnetz</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>1. Subnetz</td>
-					<td><input></td>
-					<td><input></td>
-					<td rowspan="4"><input></td>
-				</tr>
-				<tr>
-					<td>2. Subnetz</td>
-					<td><input></td>
-					<td><input></td>
-				</tr>
-				<tr>
-					<td>3. Subnetz</td>
-					<td><input></td>
-					<td><input></td>
-				</tr>
-				<tr>
-					<td>4. Subnetz</td>
-					<td><input></td>
-					<td><input></td>
-				</tr>
-			</tbody>
-		</table>
-		<label>Subnetzmaske</label><input>
-	`;
-
-	let range = (adr1 - adr0) * 256 + 256;
-
-	let answers = [
-		`192.168.${0}.1`,
-		`192.168.${0}.${0}`,
-		range / 4,
-		`192.168.${0}.${0}`,
-		`192.168.${0}.${0}`,
-		`192.168.${0}.${0}`,
-		`192.168.${0}.${0}`,
-		`192.168.${0}.${0}`,
-		`192.168.${0}.${0}`,
-		`192.168.${0}.${0}`,
 	];
 
 	return new Question(author, body, answers);

@@ -19,6 +19,17 @@ class Question {
 	}
 }
 
+class Answer {
+	constructor(value, unit = "", points = 0) {
+		this.value = value;
+		this.unit = unit;
+		this.points = points;
+	}
+	toString() {
+		return `${this.value} ${this.unit}`;
+	}
+}
+
 function nextHandler() {
 	buttonStart.classList.add("hidden");
 	buttonSend.classList.remove("hidden");
@@ -30,27 +41,55 @@ function nextHandler() {
 }
 
 function sendHandler() {
+	let pointsCurrent = 0;
+	let pointsMax = 0;
+	
 	buttonStart.classList.add("hidden");
 	buttonSend.classList.add("hidden");
 	buttonNext.classList.remove("hidden");
-	[...document.getElementsByTagName("input")].forEach((e,i) => {
-		let value = e.value;
-		switch(e.type) {
-			case "checkbox":
-				value = e.checked;
-			default:
-				break;
+	
+	[...document.getElementsByTagName("textarea")].forEach((ta,i) => {
+		let correct = 0;
+		let incorrect = 0;
+		let missing = [];
+		let eResult = document.createElement("div");
+		
+		if (i >= questionCurrent.answer.length) {
+			return;
 		}
-		if (questionCurrent.answer[i].toString().toLowerCase() != value.toString().toLowerCase()) {
-			e.style.borderColor = "#ff0000";
-			let span = document.createElement("span");
-			span.classList.add("answer-text");
-			span.innerText = questionCurrent.answer[i];
-			e.after(span);
+		
+		questionCurrent.answer[i].forEach(a => {
+			let regex = new RegExp(`${a.value}|${a.toString()}`);
+
+			pointsMax += a.points;
+			
+			if (regex.test(ta.value)) {
+				correct += 1;
+				pointsCurrent += a.points;
+			} else {
+				incorrect += 1;
+				missing.push(a);
+			}
+		});
+		
+		if (correct > 0 && incorrect > 0) {
+			eResult.innerText = missing.toString();
+			eResult.style.color = "orange";
+			ta.style.borderColor = "orange";
+			ta.after(eResult);
+		} else if (correct > 0 && incorrect == 0) {
+			ta.style.borderColor = "green";
 		} else {
-			e.style.borderColor = "#00ff00";
+			eResult.innerText = missing.toString();
+			eResult.style.color = "red";
+			ta.style.borderColor = "red";
+			ta.after(eResult);
 		}
 	});
+
+	let pointsElement = document.createElement("div");
+	pointsElement.innerText = `${pointsCurrent} von ${pointsMax} Punkten erreicht!`;
+	questionBody.appendChild(pointsElement);
 }
 
 Math.randomInt = function(min, max) {

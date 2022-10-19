@@ -24,6 +24,7 @@ td, th {
 
 input {
 	padding: 0.25rem;
+	display: block;
 }
 
 dl {
@@ -38,9 +39,17 @@ dl {
 
 .answer-text {
 	color: #ff0000;
-	margin-left: 0.5rem;
+	padding-left: 0.5rem;
 }
 
 #question-body > *:not(:last-child) {
 	margin: 0 0 1rem 0;
+}
+
+s {
+	color: #f0f0f0;
+}
+
+textarea {
+	display: block;
 }
